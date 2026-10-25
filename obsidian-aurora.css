@@ -1,0 +1,492 @@
+/*
+ * Obsidian Aurora for Vivaldi
+ * A reversible UI-only test layer. The original bookmarkicon.css stays intact.
+ */
+
+:root {
+    --oa-ink: #141210;
+    --oa-surface: rgba(31, 26, 23, 0.88);
+    --oa-surface-strong: rgba(28, 23, 21, 0.97);
+    --oa-surface-hover: rgba(233, 100, 58, 0.13);
+    --oa-accent: #e9643a;
+    --oa-orange: #f67400;
+    --oa-ember: #a94c2f;
+    --oa-gold: #ffb45c;
+    --oa-text: #fff7f2;
+    --oa-muted: #c7aaa0;
+    --oa-line: rgba(233, 100, 58, 0.24);
+    --oa-glow: 0 0 18px rgba(233, 100, 58, 0.24);
+    --oa-radius: 11px;
+}
+
+/* Browser canvas and the main glass layers */
+#browser {
+    --colorAccentBg: #32211b !important;
+    --colorAccentFg: #fff7f2 !important;
+    --colorHighlightBg: var(--oa-accent) !important;
+    --colorHighlightFg: #ffffff !important;
+    --colorBorder: rgba(233, 100, 58, 0.24) !important;
+    background-image:
+        linear-gradient(180deg, rgba(18, 12, 10, 0.14), rgba(18, 12, 10, 0.34)),
+        url("chrome://vivaldi-data/thumbnail/4QYCJ5DGNE6K26EHUYH7ZYDYMG6RLONV.jpg") !important;
+    background-color: var(--oa-ink) !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+    background-attachment: fixed !important;
+    color: var(--oa-text);
+}
+
+#browser #header,
+#browser .tabbar-wrapper,
+#browser #tabs-tabbar-container,
+#browser .toolbar-mainbar,
+#browser .bookmark-bar,
+#browser .toolbar-statusbar {
+    background: linear-gradient(110deg, rgba(24, 17, 14, 0.18), rgba(56, 27, 19, 0.10)) !important;
+    border-color: rgba(233, 100, 58, 0.16) !important;
+    backdrop-filter: blur(14px) saturate(138%);
+}
+
+#browser #panels-container,
+#browser .panel-group {
+    background: linear-gradient(115deg, rgba(27, 23, 21, 0.96), rgba(47, 27, 22, 0.93)) !important;
+    border-color: var(--oa-line) !important;
+    backdrop-filter: blur(18px) saturate(135%);
+}
+
+#browser .toolbar-mainbar {
+    box-shadow: inset 0 -1px rgba(233, 100, 58, 0.16), 0 8px 24px rgba(0, 0, 0, 0.11);
+}
+
+#browser .bookmark-bar {
+    background: linear-gradient(110deg, rgba(24, 17, 14, 0.13), rgba(56, 27, 19, 0.07)) !important;
+}
+
+/* Tabs: quiet at rest, luminous when selected */
+#browser .tab-position .tab .tab-header {
+    border: 1px solid transparent;
+    border-radius: var(--oa-radius) !important;
+    transition: background-color 140ms ease, border-color 140ms ease, box-shadow 140ms ease, transform 140ms ease;
+}
+
+#browser .tab-position .tab:hover:not(.active) .tab-header {
+    background: var(--oa-surface-hover) !important;
+    border-color: rgba(233, 100, 58, 0.22);
+}
+
+#browser .tab-position .tab.active,
+#browser .tab-position .tab.active:hover {
+    --colorFg: #ffffff;
+    --colorAccentFg: #ffffff;
+    color: #ffffff !important;
+    background: linear-gradient(125deg, #281914 0%, #3b2118 54%, #2d1713 100%) !important;
+    border: 1px solid rgba(233, 100, 58, 0.78) !important;
+    border-radius: var(--oa-radius) !important;
+    box-shadow: inset 0 1px rgba(255, 255, 255, 0.08), 0 0 18px rgba(233, 100, 58, 0.28) !important;
+}
+
+#browser .tab-position .tab.active .tab-header {
+    color: #ffffff !important;
+    background: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+
+#browser .tab-position .tab.active .title,
+#browser .tab-position .tab.active .tab-header,
+#browser .tab-position .tab.active .tab-header button {
+    color: #ffffff !important;
+    text-shadow: 0 0 12px rgba(246, 116, 0, 0.36);
+}
+
+#browser .tab-position .tab.active svg {
+    color: #fff4ed !important;
+    fill: currentColor !important;
+}
+
+#browser .tab-position .tab .favicon {
+    filter: drop-shadow(0 0 5px rgba(233, 100, 58, 0.28));
+}
+
+#browser .newtab,
+#browser .toolbar-tabbar .button-toolbar {
+    border-radius: 9px !important;
+}
+
+/* Address/search fields */
+#browser .UrlBar-AddressField,
+#browser .UrlBar-SearchField,
+#browser .SearchField,
+#browser .AddressField {
+    background: rgba(19, 16, 15, 0.78) !important;
+    border: 1px solid rgba(233, 100, 58, 0.24) !important;
+    border-radius: 13px !important;
+    box-shadow: inset 0 1px rgba(255, 255, 255, 0.04), 0 5px 18px rgba(0, 0, 0, 0.22);
+    transition: border-color 150ms ease, box-shadow 150ms ease, background-color 150ms ease;
+}
+
+#browser .UrlBar-AddressField:focus-within,
+#browser .UrlBar-SearchField:focus-within,
+#browser .SearchField:focus-within,
+#browser .AddressField:focus-within {
+    background: rgba(30, 23, 20, 0.95) !important;
+    border-color: var(--oa-accent) !important;
+    box-shadow: 0 0 0 2px rgba(233, 100, 58, 0.13), 0 0 24px rgba(246, 116, 0, 0.17);
+}
+
+#browser .UrlFragment-HostFragment-Basedomain,
+#browser .UrlFragment-HostFragment-TLD {
+    color: #ffffff !important;
+}
+
+/* Toolbar controls */
+#browser .button-toolbar > button,
+#browser button.button-toolbar,
+#browser .ToolbarButton-Button {
+    border-radius: 10px !important;
+    transition: color 130ms ease, background-color 130ms ease, box-shadow 130ms ease, transform 130ms ease;
+}
+
+#browser .button-toolbar > button:hover,
+#browser button.button-toolbar:hover,
+#browser .ToolbarButton-Button:hover {
+    background: linear-gradient(135deg, rgba(233, 100, 58, 0.17), rgba(246, 116, 0, 0.18)) !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 14px rgba(233, 100, 58, 0.16);
+}
+
+#browser .button-toolbar > button:active,
+#browser button.button-toolbar:active,
+#browser .ToolbarButton-Button:active {
+    transform: scale(0.93);
+}
+
+/*
+ * Navigation controls can be disabled on the Start Page. Hover the containing
+ * toolbar item so Back/Forward still receive the same visual feedback as
+ * Reload, Home, Panel Toggle, and enabled controls.
+ */
+#browser .toolbar-mainbar .button-toolbar:not(.toolbar-spacer):not(.toolbar-spacer-panel):not(.toolbar-spacer-flexible):not(.toolbar-divider):hover > button {
+    color: #ffffff !important;
+    background: linear-gradient(135deg, rgba(233, 100, 58, 0.24), rgba(246, 116, 0, 0.17)) !important;
+    border-color: rgba(233, 100, 58, 0.42) !important;
+    border-radius: 10px !important;
+    box-shadow: inset 0 1px rgba(255, 255, 255, 0.06), 0 0 14px rgba(233, 100, 58, 0.18) !important;
+}
+
+#browser .toolbar-mainbar .button-toolbar:not(.toolbar-spacer):not(.toolbar-spacer-panel):not(.toolbar-spacer-flexible):not(.toolbar-divider):hover > button:disabled {
+    color: var(--oa-muted) !important;
+}
+
+/* Bookmarks: preserve the compact layout, add a refined hover state */
+#browser .bookmark-bar button {
+    color: var(--oa-muted) !important;
+    border-radius: 8px !important;
+    padding-inline: 6px !important;
+    transition: color 130ms ease, background-color 130ms ease, box-shadow 130ms ease;
+}
+
+#browser .bookmark-bar button:hover {
+    color: #ffffff !important;
+    background: linear-gradient(120deg, rgba(233, 100, 58, 0.15), rgba(246, 116, 0, 0.17)) !important;
+    box-shadow: inset 0 -1px rgba(233, 100, 58, 0.60);
+}
+
+/* Bookmark folders: warm glass cards with clearer rows and actions. */
+#browser .bookmark-bar button > .menu {
+    top: calc(100% + 7px) !important;
+    min-width: 270px;
+    padding: 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 15px !important;
+    box-shadow: none !important;
+    overflow: visible;
+}
+
+#browser .bookmark-bar button > .menu > ul,
+#browser .bookmark-bar button > .menu ul ul {
+    min-width: 270px;
+    padding: 8px !important;
+    background: linear-gradient(145deg, rgba(36, 30, 27, 0.98), rgba(22, 19, 18, 0.98)) !important;
+    border: 1px solid rgba(233, 100, 58, 0.34) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 22px 58px rgba(0, 0, 0, 0.52), 0 0 26px rgba(233, 100, 58, 0.10) !important;
+    backdrop-filter: blur(24px) saturate(135%);
+}
+
+#browser .bookmark-bar button > .menu li {
+    margin: 2px 0;
+    border-radius: 9px;
+}
+
+#browser .bookmark-bar button > .menu li > a {
+    height: 34px !important;
+    gap: 10px !important;
+    padding: 0 10px !important;
+    color: var(--oa-text) !important;
+    border: 1px solid transparent;
+    border-radius: 9px !important;
+    transition: transform 120ms ease, color 120ms ease, background-color 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
+}
+
+#browser .bookmark-bar button > .menu li.selectedItem > a,
+#browser .bookmark-bar button > .menu li > a:focus,
+#browser .bookmark-bar button > .menu li > a:hover {
+    color: #ffffff !important;
+    background: linear-gradient(110deg, rgba(169, 76, 47, 0.70), rgba(246, 116, 0, 0.28)) !important;
+    border-color: rgba(233, 100, 58, 0.52) !important;
+    box-shadow: inset 3px 0 var(--oa-accent), 0 6px 16px rgba(0, 0, 0, 0.20) !important;
+    transform: translateX(2px);
+}
+
+#browser .bookmark-bar button > .menu .menu-icon {
+    display: flex;
+    flex: 0 0 24px !important;
+    width: 24px;
+    height: 24px;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.055);
+    border-radius: 7px;
+}
+
+#browser .bookmark-bar button > .menu .menu-icon img,
+#browser .bookmark-bar button > .menu .menu-icon svg {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.45));
+}
+
+#browser .bookmark-bar button > .menu .divider {
+    margin: 8px 5px !important;
+    border-bottom: 1px solid rgba(233, 100, 58, 0.28) !important;
+}
+
+#browser .bookmark-bar button > .menu > ul > li:last-child > a {
+    color: #ffd0bd !important;
+    font-weight: 600;
+    background: rgba(233, 100, 58, 0.08) !important;
+    border-color: rgba(233, 100, 58, 0.16);
+}
+
+#browser .bookmark-bar button > .menu > ul > li:last-child > a:hover,
+#browser .bookmark-bar button > .menu > ul > li:last-child > a:focus {
+    color: #ffffff !important;
+    background: linear-gradient(110deg, var(--oa-ember), rgba(246, 116, 0, 0.72)) !important;
+}
+
+/* Panels, popovers, menus, and settings */
+#browser .panel,
+#browser .webpanel-stack,
+#browser .ExtensionIcon--Dropdown,
+#browser .toolbar-extensions,
+#browser .menu,
+#browser .dropdown-menu,
+#browser .OmniDropdown,
+#browser .vivaldi-settings .settings-content,
+#browser .dialog-content {
+    background-color: var(--oa-surface-strong) !important;
+    border-color: var(--oa-line) !important;
+}
+
+#browser .OmniDropdown,
+#browser .dropdown-menu,
+#browser .menu,
+#browser .dialog-content {
+    border-radius: 13px !important;
+    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.48), 0 0 0 1px rgba(233, 100, 58, 0.10) !important;
+    backdrop-filter: blur(20px) saturate(130%);
+}
+
+#browser .OmniLinkItem:hover,
+#browser .OmniLinkItem--Highlighted,
+#browser .menu-item:hover,
+#browser .panel button:hover {
+    background-color: var(--oa-surface-hover) !important;
+}
+
+/*
+ * Vivaldi portals bookmark and browser-UI menus near #app rather than keeping
+ * every popup inside its source button. Style that shared HTML menu layer so
+ * folder dropdowns, nested folders, and other Vivaldi menus match the theme.
+ */
+#browser .menu:not(.horizontal),
+.menu:not(.horizontal) {
+    padding: 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 15px !important;
+    box-shadow: none !important;
+    overflow: visible;
+}
+
+#browser :not(.topmenu) > .menu > ul,
+#browser .menu ul ul,
+:not(.topmenu) > .menu > ul,
+.menu ul ul {
+    min-width: 270px;
+    padding: 8px !important;
+    color: var(--oa-text) !important;
+    background: linear-gradient(145deg, rgba(38, 31, 28, 0.985), rgba(21, 18, 17, 0.985)) !important;
+    border: 1px solid rgba(233, 100, 58, 0.38) !important;
+    border-radius: 14px !important;
+    box-shadow:
+        inset 0 1px rgba(255, 180, 92, 0.10),
+        0 22px 58px rgba(0, 0, 0, 0.56),
+        0 0 28px rgba(233, 100, 58, 0.11) !important;
+    backdrop-filter: blur(24px) saturate(138%);
+}
+
+#browser :not(.topmenu) > .menu > ul > li,
+#browser .menu ul ul > li,
+:not(.topmenu) > .menu > ul > li,
+.menu ul ul > li {
+    margin: 2px 0;
+    border-radius: 9px;
+}
+
+#browser :not(.topmenu) > .menu > ul li > a,
+#browser .menu ul ul li > a,
+:not(.topmenu) > .menu > ul li > a,
+.menu ul ul li > a {
+    min-height: 34px !important;
+    height: auto !important;
+    gap: 10px !important;
+    padding: 0 10px !important;
+    color: var(--oa-text) !important;
+    border: 1px solid transparent;
+    border-radius: 9px !important;
+    transition: transform 110ms ease, background-color 110ms ease, border-color 110ms ease, box-shadow 110ms ease;
+}
+
+#browser :not(.topmenu) > .menu > ul li.selectedItem > a,
+#browser :not(.topmenu) > .menu > ul li > a:focus,
+#browser :not(.topmenu) > .menu > ul li > a:hover,
+#browser .menu ul ul li.selectedItem > a,
+#browser .menu ul ul li > a:focus,
+#browser .menu ul ul li > a:hover,
+:not(.topmenu) > .menu > ul li.selectedItem > a,
+:not(.topmenu) > .menu > ul li > a:focus,
+:not(.topmenu) > .menu > ul li > a:hover,
+.menu ul ul li.selectedItem > a,
+.menu ul ul li > a:focus,
+.menu ul ul li > a:hover {
+    color: #ffffff !important;
+    fill: #ffffff !important;
+    background: linear-gradient(110deg, rgba(169, 76, 47, 0.82), rgba(246, 116, 0, 0.36)) !important;
+    border-color: rgba(233, 100, 58, 0.58) !important;
+    box-shadow: inset 3px 0 var(--oa-accent), 0 7px 18px rgba(0, 0, 0, 0.24) !important;
+    transform: translateX(2px);
+}
+
+#browser :not(.topmenu) > .menu > ul .menu-icon,
+#browser .menu ul ul .menu-icon,
+:not(.topmenu) > .menu > ul .menu-icon,
+.menu ul ul .menu-icon {
+    display: flex;
+    flex: 0 0 24px !important;
+    width: 24px;
+    height: 24px;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.055);
+    border-radius: 7px;
+}
+
+#browser :not(.topmenu) > .menu > ul .menu-icon img,
+#browser :not(.topmenu) > .menu > ul .menu-icon svg,
+#browser .menu ul ul .menu-icon img,
+#browser .menu ul ul .menu-icon svg,
+:not(.topmenu) > .menu > ul .menu-icon img,
+:not(.topmenu) > .menu > ul .menu-icon svg,
+.menu ul ul .menu-icon img,
+.menu ul ul .menu-icon svg {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.48));
+}
+
+#browser :not(.topmenu) > .menu > ul .divider,
+#browser .menu ul ul .divider,
+:not(.topmenu) > .menu > ul .divider,
+.menu ul ul .divider {
+    margin: 8px 5px !important;
+    border-bottom: 1px solid rgba(233, 100, 58, 0.30) !important;
+}
+
+#browser .menu:not(.horizontal) li.divider + li:last-child > a,
+.menu:not(.horizontal) li.divider + li:last-child > a {
+    color: #ffd0bd !important;
+    font-weight: 600;
+    background: rgba(233, 100, 58, 0.08) !important;
+    border-color: rgba(233, 100, 58, 0.18);
+}
+
+#browser .menu:not(.horizontal) li.divider + li:last-child > a:hover,
+#browser .menu:not(.horizontal) li.divider + li:last-child > a:focus,
+.menu:not(.horizontal) li.divider + li:last-child > a:hover,
+.menu:not(.horizontal) li.divider + li:last-child > a:focus {
+    color: #ffffff !important;
+    background: linear-gradient(110deg, var(--oa-ember), rgba(246, 116, 0, 0.76)) !important;
+}
+
+/* Start page */
+#browser .startpage {
+    background-image:
+        linear-gradient(180deg, rgba(5, 9, 20, 0.08), rgba(5, 9, 20, 0.24)),
+        url("chrome://vivaldi-data/thumbnail/4QYCJ5DGNE6K26EHUYH7ZYDYMG6RLONV.jpg") !important;
+    background-color: var(--oa-ink) !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+    background-attachment: fixed !important;
+}
+
+#browser .startpage .dial {
+    border-radius: 14px !important;
+    filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.24));
+}
+
+#browser .startpage .dial:hover {
+    filter: drop-shadow(0 0 18px rgba(233, 100, 58, 0.22));
+}
+
+/* Progress, selections, and scrollbars */
+#browser .pageload-indicator::-webkit-progress-value,
+#browser .progress-bar .loaded {
+    background: linear-gradient(90deg, var(--oa-ember), var(--oa-accent), var(--oa-gold)) !important;
+    box-shadow: 0 0 12px rgba(233, 100, 58, 0.54);
+}
+
+#browser ::selection {
+    color: #ffffff;
+    background: rgba(169, 76, 47, 0.88);
+}
+
+#browser ::-webkit-scrollbar {
+    width: 9px;
+    height: 9px;
+}
+
+#browser ::-webkit-scrollbar-track {
+    background: rgba(20, 18, 16, 0.46);
+}
+
+#browser ::-webkit-scrollbar-thumb {
+    background: linear-gradient(var(--oa-accent), var(--oa-orange));
+    border: 2px solid rgba(20, 18, 16, 0.90);
+    border-radius: 999px;
+}
+
+#browser ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(var(--oa-gold), var(--oa-accent));
+}
+
+/* Respect reduced-motion preferences. */
+@media (prefers-reduced-motion: reduce) {
+    #browser *,
+    #browser *::before,
+    #browser *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+    }
+}

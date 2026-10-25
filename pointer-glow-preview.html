@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Vivaldi pointer light preview</title>
+<link rel="stylesheet" href="obsidian-aurora.css">
+<style>
+  :root { color-scheme: dark; font: 15px system-ui; background: #161312; color: #eee2da; }
+  body { margin: 64px; }
+  h1 { font-size: 24px; font-weight: 550; }
+  p { color: #b7aaa2; max-width: 550px; line-height: 1.6; }
+  #browser { display: inline-block; background: #211b18 !important; border: 1px solid #4a3027; border-radius: 14px; padding: 14px; }
+  .bookmark-bar { display: flex; gap: 10px; }
+  .preview-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+  .tab { box-sizing: border-box; width: 180px; height: 32px; border: 1px solid transparent; border-radius: 11px; }
+  .tab-header { box-sizing: border-box; display: flex; align-items: center; gap: 8px; height: 100%; padding: 0 7px; font-size: 12px; }
+  .tab-header .title { flex: 1; white-space: nowrap; }
+  .tab-header button.close { width: 18px; height: 18px; font-size: 14px; line-height: 16px; padding: 0; border-radius: 50%; }
+  .tab-header button.close:hover { background: #ffffff20; }
+  #pinned-tab { width: 38px; }
+  button { position: relative; width: 40px; height: 32px; border: 0; background: transparent; cursor: pointer; font-size: 19px; }
+  #results { white-space: pre-wrap; color: #e9a36f; }
+</style>
+<h1>A small light that follows your mouse</h1>
+<p>Move across a tab or button, especially near its edges. The warm highlight and bright rim follow your pointer.</p>
+<div id="browser">
+  <div class="preview-tabs" role="tablist">
+    <div class="tab-position"><div class="tab active" id="active-tab" role="tab" aria-selected="true"><div class="tab-header"><span class="favicon">☾</span><span class="title">Moon · Start Page</span><button class="close" aria-label="Close tab">×</button></div></div></div>
+    <div class="tab-position"><div class="tab" id="inactive-tab" role="tab" aria-selected="false"><div class="tab-header"><span class="favicon">☆</span><span class="title">Bookmarks</span><button class="close" aria-label="Close tab">×</button></div></div></div>
+    <div class="tab-position"><div class="tab" id="pinned-tab" role="tab" aria-selected="false"><div class="tab-header"><span class="favicon">♫</span></div></div></div>
+  </div>
+  <div class="bookmark-bar">
+    <button id="game" title="Games">🎮</button>
+    <button id="folder" title="Folders">📁</button>
+    <button id="star" title="Bookmarks">☆</button>
+    <button id="sound" title="Sound">♫</button>
+  </div>
+</div>
+<pre id="results"></pre>
+<script src="pointer-glow.js"></script>
+<script>
+  if (location.hash === "#test") {
+    addEventListener("load", async () => {
+      const results = document.querySelector("#results");
+      const button = document.querySelector("#game");
+      const ring = document.querySelector("#oa-pointer-glow-ring");
+      const rect = button.getBoundingClientRect();
+      const nextFrame = () => new Promise(resolve => requestAnimationFrame(resolve));
+      const assert = (condition, message) => {
+        if (!condition) throw new Error(message);
+        results.textContent += `PASS: ${message}\n`;
+      };
+      function move(fraction) {
+        button.dispatchEvent(new PointerEvent("pointermove", {
+          bubbles: true, pointerType: "mouse", clientX: rect.left + rect.width * fraction,
+          clientY: rect.top + rect.height / 2,
+        }));
+      }
+      function moveTab(tab, fraction, target = tab.querySelector(".title") ?? tab) {
+        const bounds = tab.getBoundingClientRect();
+        target.dispatchEvent(new PointerEvent("pointermove", {
+          bubbles: true, pointerType: "mouse", clientX: bounds.left + bounds.width * fraction,
+          clientY: bounds.top + bounds.height / 2,
+        }));
+      }
+      try {
+        move(.1);
+        await nextFrame();
+        assert(Math.abs(parseFloat(button.style.getPropertyValue("--oa-pointer-x")) - 10) < .1, "Light reaches the left side");
+        const leftBackground = getComputedStyle(button).backgroundImage;
+        assert(!ring.hidden && getComputedStyle(ring).pointerEvents === "none", "Rim is visible and does not intercept clicks");
+        move(.9);
+        await nextFrame();
+        assert(Math.abs(parseFloat(button.style.getPropertyValue("--oa-pointer-x")) - 90) < .1, "Light follows to the right side");
+        assert(getComputedStyle(button).backgroundImage !== leftBackground, "Rendered gradient changes with pointer position");
+        button.dispatchEvent(new PointerEvent("pointerout", {bubbles: true, relatedTarget: document.body}));
+        assert(ring.hidden && !button.hasAttribute("data-oa-pointer-glow"), "Original styling returns when pointer leaves");
+
+        const tab = document.querySelector("#active-tab");
+        const header = tab.querySelector(".tab-header");
+        const original = getComputedStyle(tab);
+        const originalSurface = original.backgroundImage;
+        const originalOutline = original.borderColor;
+        const originalShadow = original.boxShadow;
+        const originalText = getComputedStyle(header).color;
+        moveTab(tab, .1);
+        await nextFrame();
+        assert(tab.getAttribute("data-oa-pointer-glow") === "tab", "Tab titles activate the wider tab glow");
+        const tabLeftLight = getComputedStyle(header).backgroundImage;
+        moveTab(tab, .9);
+        await nextFrame();
+        assert(getComputedStyle(header).backgroundImage !== tabLeftLight, "Tab light follows left-to-right movement");
+        const highlighted = getComputedStyle(tab);
+        assert(highlighted.backgroundImage === originalSurface && highlighted.borderColor === originalOutline && highlighted.boxShadow === originalShadow, "Active tab background, orange outline, and shadow stay intact");
+        assert(getComputedStyle(header).color === originalText, "Tab text keeps its original contrast");
+        const close = tab.querySelector(".close");
+        const closeRect = close.getBoundingClientRect();
+        assert(close.contains(document.elementFromPoint(closeRect.x + closeRect.width / 2, closeRect.y + closeRect.height / 2)), "Tab close button remains clickable through the glow");
+        moveTab(tab, .9, close);
+        await nextFrame();
+        assert(tab.hasAttribute("data-oa-pointer-glow") && !close.hasAttribute("data-oa-pointer-glow"), "Moving over Close keeps one continuous tab light");
+        const inactive = document.querySelector("#inactive-tab");
+        moveTab(inactive, .5);
+        await nextFrame();
+        assert(inactive.hasAttribute("data-oa-pointer-glow") && !tab.hasAttribute("data-oa-pointer-glow"), "Light transfers cleanly between tabs");
+        const pinned = document.querySelector("#pinned-tab");
+        moveTab(pinned, .5);
+        await nextFrame();
+        assert(parseFloat(pinned.style.getPropertyValue("--oa-tab-light-radius")) < 32, "Pinned tabs use a proportionally smaller light");
+        pinned.dispatchEvent(new Event("dragstart", {bubbles: true}));
+        assert(ring.hidden && !pinned.hasAttribute("data-oa-pointer-glow"), "Dragging a tab clears the overlay");
+
+        move(.5);
+        await nextFrame();
+        window.__obsidianPointerGlow.destroy();
+        assert(!document.querySelector("#oa-pointer-glow-ring") && !button.hasAttribute("data-oa-pointer-glow"), "Uninstall restores buttons and removes overlays");
+        document.documentElement.dataset.result = "passed";
+      } catch (error) {
+        results.textContent += `FAIL: ${error.message}`;
+        document.documentElement.dataset.result = "failed";
+      }
+    });
+  }
+</script>
+</html>
