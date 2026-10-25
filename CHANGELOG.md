@@ -1,5 +1,13 @@
 # Changenotes
 
+## 2026-10-25 — Hide bookmark folder icons
+
+- Integrated the original `bookmarkicon.css` folder-icon hiding rule into Obsidian Aurora.
+- Applied the same rule to the active local CSS and repository copy.
+- Updated setup notes to remove the separate CSS dependency for this effect.
+
+Validation: confirmed both CSS copies match and contain the original hiding rule; no visual browser check was run.
+
 ## 2026-10-25 — Initial repository release
 
 - Added the existing Obsidian Aurora CSS: warm orange accents, glass toolbar surfaces, high-contrast active tabs, and bookmark-menu styling.

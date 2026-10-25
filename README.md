@@ -9,7 +9,9 @@ Warm orange accents, translucent browser toolbars, readable dark tabs, styled bo
 3. In Settings → Appearance, set **Custom UI Modifications** to this repository folder.
 4. Fully quit and reopen Vivaldi.
 
-`obsidian-aurora.css` styles the browser interface. `theme.json` records the matching theme settings; it is not an automatically installed theme package. Existing CSS mods can remain in your chosen custom CSS folder: copy `obsidian-aurora.css` there instead if needed.
+`obsidian-aurora.css` styles the browser interface and includes the original
+`bookmarkicon.css` rule that hides folder icons. No separate bookmark CSS file
+is needed for that effect. `theme.json` records the matching theme settings; it is not an automatically installed theme package. Existing CSS mods can remain in your chosen custom CSS folder: copy `obsidian-aurora.css` there instead if needed.
 
 The CSS and theme reference the original profile's moon wallpaper through a `chrome://vivaldi-data/thumbnail/` URL. The wallpaper itself is not included. On another profile, replace the two image URLs in the CSS with an accessible image URL and choose your background in Vivaldi's theme editor. Without that image, the dark background remains.
 

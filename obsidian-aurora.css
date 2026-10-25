@@ -1,6 +1,6 @@
 /*
  * Obsidian Aurora for Vivaldi
- * A reversible UI-only test layer. The original bookmarkicon.css stays intact.
+ * UI customization with the original bookmark folder-icon hiding rule integrated.
  */
 
 :root {
@@ -177,6 +177,11 @@
 
 #browser .toolbar-mainbar .button-toolbar:not(.toolbar-spacer):not(.toolbar-spacer-panel):not(.toolbar-spacer-flexible):not(.toolbar-divider):hover > button:disabled {
     color: var(--oa-muted) !important;
+}
+
+/* Integrated from bookmarkicon.css: hide folder icons. */
+.folder-icon {
+    display: none !important;
 }
 
 /* Bookmarks: preserve the compact layout, add a refined hover state */
